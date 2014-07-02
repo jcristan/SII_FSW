@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:bean="urn:switchyard-component-bean:config:1.1" xmlns:file="urn:switchyard-component-camel-file:config:1.1" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sy="urn:switchyard-config:switchyard:1.1" name="ServicioSII" targetNamespace="urn:com.example.switchyard:ServicioSII:1.0">
+  <sca:composite name="ServicioSII" targetNamespace="urn:com.example.switchyard:ServicioSII:1.0">
+    <sca:component name="ParseContribuyenteBean">
+      <bean:implementation.bean class="cl.gob.sii.poc.bean.ParseContribuyenteBean"/>
+      <sca:service name="ParseContribuyente">
+        <sca:interface.java interface="cl.gob.sii.poc.bean.ParseContribuyente"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="ParseContribuyente" promote="ParseContribuyenteBean/ParseContribuyente">
+      <sca:interface.java interface="cl.gob.sii.poc.bean.ParseContribuyente"/>
+      <file:binding.file name="file1">
+        <file:directory>/opt/archivo</file:directory>
+        <file:fileName>nomina.txt</file:fileName>
+        <file:consume>
+          <file:move>/opt/archivo/ok</file:move>
+          <file:moveFailed>opt/archivo/failed</file:moveFailed>
+        </file:consume>
+      </file:binding.file>
+    </sca:service>
+  </sca:composite>
+</sy:switchyard>
